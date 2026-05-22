@@ -1,7 +1,7 @@
 <?php
-$host = "your-server.mysql.database.azure.com";
-$username = "azureuser@your-server";
-$password = "YourPassword";
+$host = "product-db-server1.mysql.database.azure.com";
+$username = "azureuser";
+$password = "Password@12345";
 $database = "productdb";
 
 $conn = new mysqli($host, $username, $password, $database);
