@@ -1,0 +1,24 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'
+
+stages:
+- stage: Build
+  displayName: Build PHP App
+  jobs:
+  - job: BuildJob
+    steps:
+
+    - task: ArchiveFiles@2
+      displayName: "Zip PHP Files"
+      inputs:
+        rootFolderOrFile: '$(Build.SourcesDirectory)'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/app.zip'
+        replaceExistingArchive: true
+
+    - publish: $(Build.ArtifactStagingDirectory)/app.zip
+      artifact: drop
