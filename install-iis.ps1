@@ -11,4 +11,7 @@ if (Test-Path $out) {
 
 Expand-Archive $zip -DestinationPath $out -Force
 
-Copy-Item C:\temp\azure_case_study-main\* C:\inetpub\wwwroot -Recurse -Force
+# Find correct extracted folder dynamically
+$folder = Get-ChildItem "C:\temp" | Where-Object { $_.PSIsContainer -eq $true } | Select-Object -First 1
+
+Copy-Item "$($folder.FullName)\*" "C:\inetpub\wwwroot" -Recurse -Force
