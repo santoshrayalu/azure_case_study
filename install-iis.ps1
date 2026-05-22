@@ -11,11 +11,15 @@ if (Test-Path $out) {
 
 Expand-Archive $zip -DestinationPath $out -Force
 
-# Find correct extracted folder dynamically
+# Correct folder
 $folder = Get-ChildItem $out | Where-Object { $_.PSIsContainer } | Select-Object -First 1
 
-# DELETE default IIS page (IMPORTANT FIX)
+# REMOVE default IIS page
 Remove-Item "C:\inetpub\wwwroot\iisstart.htm" -Force -ErrorAction SilentlyContinue
+Remove-Item "C:\inetpub\wwwroot\index.html" -Force -ErrorAction SilentlyContinue
 
-# COPY your site
-Copy-Item "$($folder.FullName)\*" "C:\inetpub\wwwroot" -Recurse -Force
+# COPY correct content
+Copy-Item "$($folder.FullName)\*" "C:\inetpub\wwwroot\" -Recurse -Force
+
+# Restart IIS
+iisreset
